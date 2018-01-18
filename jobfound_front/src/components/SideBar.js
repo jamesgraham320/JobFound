@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "antd/dist/antd.css";
 import { NavLink } from "react-router-dom";
-import { Menu, Icon, Button } from "antd";
+import { Menu, Icon, Button, Modal } from "antd";
+import ApplicationForm from "../forms/ApplicationForm";
 
 class SideBar extends Component {
   state = { visible: false };
@@ -14,13 +15,34 @@ class SideBar extends Component {
   handleOk = e => {
     this.setState({ visible: false });
   };
+
+  handleCancel = e => {
+    this.setState({
+      visible: false
+    });
+  };
+
   render() {
     return (
-      <Menu theme="dark" mode="inline" selectable={false}>
+      <Menu
+        style={{ marginTop: 10 }}
+        theme="dark"
+        mode="inline"
+        selectable={false}
+      >
         <Menu.Item key="0">
-          <Button type="primary" size="large">
+          <Button type="primary" onClick={this.showModal} size="large">
             New Application
           </Button>
+          <Modal
+            footer={null}
+            title="What Company did you apply to?"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+          >
+            <ApplicationForm handleOk={this.handleOk} />
+          </Modal>
         </Menu.Item>
         <Menu.Item key="1">
           <Icon type="home" />

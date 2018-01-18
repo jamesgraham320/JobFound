@@ -6,7 +6,6 @@ import "./App.css";
 import { connect } from "react-redux";
 import ContentContainer from "./containers/ContentContainer";
 import ApplicationContainer from "./containers/ApplicationContainer";
-import ApplicationForm from "./forms/ApplicationForm";
 import { signInUser, showUser } from "./actions/data";
 import "antd/dist/antd.css";
 import { Layout } from "antd";
@@ -25,17 +24,17 @@ class App extends Component {
     return (
       <div>
         <Layout>
-          <Sider>
+          <Sider
+            style={{
+              overflow: "auto",
+              height: "100vh",
+              left: 0
+            }}
+          >
             <SideBar />
           </Sider>
           <Layout>
-            <Header />
-            <Content>
-              <Route
-                exact
-                path="/new-application"
-                component={ApplicationForm}
-              />
+            <Content style={{ padding: "15px" }}>
               <Route
                 exact
                 path="/applications/:id"

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createApplication } from "../actions/data";
+import { Button, Form, Segment } from "semantic-ui-react";
 
 class ApplicationForm extends Component {
   state = { companyName: "", applicationMethod: "", companyAddress: "" };
@@ -21,6 +22,7 @@ class ApplicationForm extends Component {
       applicationMethod: "",
       companyAddress: ""
     });
+    this.props.handleOk();
   };
 
   handleChange = e => {
@@ -28,29 +30,40 @@ class ApplicationForm extends Component {
   };
   render() {
     return (
-      <form layout="vertical" onSubmit={this.handleSubmit}>
-        <input
-          placeholder="Company Name"
-          name="companyName"
-          onChange={this.handleChange}
-          value={this.state.companyName}
-        />
-        <input
-          placeholder="Address"
-          name="companyAddress"
-          onChange={this.handleChange}
-          value={this.state.companyAddress}
-        />
-        <input
-          placeholder="How did you apply?"
-          name="applicationMethod"
-          onChange={this.handleChange}
-          value={this.state.applicationMethod}
-        />
-        <button type="primary" htmlType="submit">
-          Create
-        </button>
-      </form>
+      <Form layout="vertical" onSubmit={this.handleSubmit}>
+        <Form.Field>
+          <label>Name</label>
+          <input
+            placeholder="Company Name"
+            name="companyName"
+            onChange={this.handleChange}
+            value={this.state.companyName}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Address</label>
+          <input
+            placeholder="Address"
+            name="companyAddress"
+            onChange={this.handleChange}
+            value={this.state.companyAddress}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>How did you apply?</label>
+          <input
+            placeholder="How did you apply?"
+            name="applicationMethod"
+            onChange={this.handleChange}
+            value={this.state.applicationMethod}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Button type="primary" htmlType="submit">
+            Create
+          </Button>
+        </Form.Field>
+      </Form>
     );
   }
 }
