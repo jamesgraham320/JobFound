@@ -1,28 +1,33 @@
-
 class ApplicationController < ActionController::Base
-  helper_method :current_user
+  #before_action :authorized
+  #protect_from_forgery with: :exception
+
+
+  def issue_token(payload)
+    JWT.encode(payload, ENV['secret'], 'HS256')
+  end
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    user ||= User.find_by(uid: user_id)
   end
 
-  def encode(payload)
-    payload = {
-      payload: payload,
-      exp: 4.hours.from_now.to_i,
-      iat: Time.now.to_i
-    }
-    JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
+  def user_id
+    decoded_token.first['uid']
   end
 
-  def decode(token)
-    options = {
-      verify_iss: true,
-      verify_iat: true,
-      leeway: 30,
-      algorithm: 'HS256'
-    }
-    JWT.decode token, ENV['JWT_SECRET'], true, options
+  def decoded_token
+    begin
+      JWT.decode(request.headers['Authorization'], ENV['secret'], true, { :algorithm => 'HS256' })
+    rescue JWT::DecodeError
+      [{}]
+    end
   end
-  
+
+  def authorized
+    render json: {message: "Not welcome" }, status: 401 unless logged_in?
+  end
+
+  def logged_in?
+    !!current_user
+  end
 end

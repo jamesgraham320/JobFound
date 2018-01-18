@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110152123) do
+ActiveRecord::Schema.define(version: 20180116163522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20180110152123) do
     t.integer "application_id"
     t.string "name"
     t.string "address"
+    t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -58,9 +59,9 @@ ActiveRecord::Schema.define(version: 20180110152123) do
   end
 
   create_table "stages", force: :cascade do |t|
-    t.string "name"
-    t.boolean "active"
-    t.datetime "start"
+    t.string "name", default: "Submitted"
+    t.boolean "active", default: true
+    t.datetime "start", default: "2018-01-17 18:32:39"
     t.datetime "end"
     t.integer "application_id"
     t.datetime "created_at", null: false
@@ -68,10 +69,10 @@ ActiveRecord::Schema.define(version: 20180110152123) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.text "provider"
-    t.text "uid"
-    t.text "name"
-    t.text "oauth_token"
+    t.string "provider"
+    t.string "uid"
+    t.string "name"
+    t.string "oauth_token"
     t.datetime "oauth_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

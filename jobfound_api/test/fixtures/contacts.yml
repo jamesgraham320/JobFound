@@ -5,9 +5,11 @@ one:
   email: MyString
   phone_num: MyString
   active: false
+  company_id: 1
 
 two:
   name: MyString
   email: MyString
   phone_num: MyString
   active: false
+  company_id: 1

@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  application_id: 1
   name: MyString
   address: MyString
+  source: MyString
 
 two:
+  application_id: 1
   name: MyString
   address: MyString
+  source: MyString

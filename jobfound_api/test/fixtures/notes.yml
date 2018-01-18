@@ -2,8 +2,10 @@
 
 one:
   content: MyString
-  stage_id: MyString
+  stage_id: 1
+  contact_id: 1
 
 two:
   content: MyString
-  stage_id: MyString
+  stage_id: 1
+  contact_id: 1

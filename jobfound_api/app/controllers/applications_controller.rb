@@ -1,22 +1,21 @@
 class ApplicationsController < ApplicationController
-  def index
-    applications = Application.all
-    render json: applications
-  end
-
-  def show
-
-  end
 
   def create
+    app = Application.create(application_params)
+    company = Company.new(company_params)
+    Stage.create(application: app)
+    company.application = app
+    company.save
+    render json: app
   end
 
-  def edit
+  private
 
+  def application_params
+    params.require(:application).permit(:user_id)
   end
 
-  def delete
-
+  def company_params
+    params.require(:company).permit(:name, :address, :source)
   end
-
 end
