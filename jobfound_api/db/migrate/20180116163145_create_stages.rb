@@ -5,6 +5,7 @@ class CreateStages < ActiveRecord::Migration[5.1]
       t.boolean :active, default: true
       t.datetime :start, default: DateTime.now
       t.datetime :end
+      t.integer :application_stage
       t.integer :application_id
 
       t.timestamps

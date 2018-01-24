@@ -1,25 +1,32 @@
 import React, { Component } from "react";
-import Login from "./components/Login";
+import LoginButton from "./components/LoginButton";
 import SideBar from "./components/SideBar";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import "./App.css";
 import { connect } from "react-redux";
-import ContentContainer from "./containers/ContentContainer";
-import ApplicationContainer from "./containers/ApplicationContainer";
-import { signInUser, showUser } from "./actions/data";
+import ApplicationsList from "./components/ApplicationsList";
+import ApplicationsContainer from "./containers/ApplicationsContainer";
+import { showUser } from "./actions/data";
 import "antd/dist/antd.css";
-import { Layout } from "antd";
-const { Header, Footer, Sider, Content } = Layout;
+import { Layout, Modal } from "antd";
+import { startGoogleClient } from "./actions/data";
+const { Sider, Content } = Layout;
 
 class App extends Component {
+  state = { visible: true };
+
+  handleOk = e => {
+    this.setState({ visible: false });
+  };
+
   componentDidMount() {
-    //this.props.signInUser();
-    this.props.showUser(1);
+    if (localStorage.getItem("token")) {
+      this.props.showUser();
+    }
+    this.props.startGoogleClient();
+    //this.props.showUser(1);
   }
 
-  signInButton = () => {
-    let signInWindow = window.open("http://localhost:3000/auth/google_oauth2");
-  };
   render() {
     return (
       <div>
@@ -34,13 +41,14 @@ class App extends Component {
             <SideBar />
           </Sider>
           <Layout>
-            <Content style={{ padding: "15px" }}>
+            <Content style={{ padding: "2vh" }}>
               <Route
                 exact
                 path="/applications/:id"
-                component={ApplicationContainer}
+                component={ApplicationsContainer}
               />
-              <Route exact path="/applications" component={ContentContainer} />
+              <Route exact path="/" component={ApplicationsList} />
+              <Route exact path="/login" component={LoginButton} />
             </Content>
           </Layout>
         </Layout>
@@ -50,7 +58,9 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  return { user: state.user };
+  return { user: state.user, loading: state.loading, loggedIn: state.loggedIn };
 }
 
-export default connect(mapStateToProps, { signInUser, showUser })(App);
+export default withRouter(
+  connect(mapStateToProps, { showUser, startGoogleClient })(App)
+);

@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  #before_action :authorized
+  before_action :authorized
   #protect_from_forgery with: :exception
 
 
@@ -8,11 +8,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    user ||= User.find_by(uid: user_id)
+    user ||= User.find_by(id: user_id)
   end
 
   def user_id
-    decoded_token.first['uid']
+    decoded_token.first['id']
   end
 
   def decoded_token

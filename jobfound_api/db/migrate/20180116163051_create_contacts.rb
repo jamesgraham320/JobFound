@@ -4,7 +4,7 @@ class CreateContacts < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :email
       t.string :phone_num
-      t.boolean :active
+      t.boolean :active, default: false
       t.integer :company_id
 
       t.timestamps

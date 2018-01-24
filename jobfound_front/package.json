@@ -8,7 +8,9 @@
     "coffee-script": "^1.12.7",
     "coffescript": "^0.0.1-security",
     "googleapis": "^24.0.0",
+    "immutability-helper": "^2.6.4",
     "loadjs": "^3.5.2",
+    "moment": "^2.20.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-google-login": "^3.0.4",
@@ -19,7 +21,8 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.77.2"
+    "semantic-ui-react": "^0.77.2",
+    "upper-case-first": "^1.1.2"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",

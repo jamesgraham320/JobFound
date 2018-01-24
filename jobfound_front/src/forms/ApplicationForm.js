@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createApplication } from "../actions/data";
-import { Button, Form, Segment } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
 
 class ApplicationForm extends Component {
   state = { companyName: "", applicationMethod: "", companyAddress: "" };
@@ -59,7 +59,7 @@ class ApplicationForm extends Component {
           />
         </Form.Field>
         <Form.Field>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmltype="submit">
             Create
           </Button>
         </Form.Field>

@@ -61,8 +61,9 @@ ActiveRecord::Schema.define(version: 20180116163522) do
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "Submitted"
     t.boolean "active", default: true
-    t.datetime "start", default: "2018-01-17 18:32:39"
+    t.datetime "start", default: "2018-01-22 15:38:44"
     t.datetime "end"
+    t.integer "application_stage"
     t.integer "application_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -72,8 +73,17 @@ ActiveRecord::Schema.define(version: 20180116163522) do
     t.string "provider"
     t.string "uid"
     t.string "name"
-    t.string "oauth_token"
-    t.datetime "oauth_expires_at"
+    t.string "family_name"
+    t.string "given_name"
+    t.string "email"
+    t.string "phone"
+    t.string "image_url"
+    t.string "code"
+    t.string "id_token"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.string "expires_in"
+    t.string "token_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

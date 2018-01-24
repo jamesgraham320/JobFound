@@ -1,29 +1,80 @@
-import { AuthAdapter, RestfulAdapter } from "../adapter";
+import { RestfulAdapter } from "../adapter";
+const baseUrl = "http://localhost:3000";
+const clientId =
+  "1041156522360-oljcrjq22qvb3694m2cmqcm7jvvl08fu.apps.googleusercontent.com";
 
-export function signInUser() {
+export const signInUser = (history, handleOk) => {
   return dispatch => {
-    AuthAdapter.login().then(userData => {
-      console.log(userData);
-      localStorage.setItem("token", userData.token);
-      let action = { type: "LOGIN_USER", payload: userData };
-      dispatch(action);
+    window.auth2
+      .grantOfflineAccess()
+      .then(authResult => {
+        let user = "";
+        if (authResult["code"]) {
+          const getProfile = window.auth2.currentUser.get().getBasicProfile();
+          user = {
+            uid: getProfile.getId(),
+            email: getProfile.getEmail(),
+            name: getProfile.getName(),
+            family_name: getProfile.getFamilyName(),
+            given_name: getProfile.getGivenName(),
+            image_url: getProfile.getImageUrl(),
+            code: authResult["code"]
+          };
+        }
+        return user;
+      })
+      .then(user => {
+        // console.log("before authUsercall", user);
+        fetch(`${baseUrl}/users/`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+            Authorization: localStorage.getItem("token")
+          },
+          body: JSON.stringify({
+            user: user
+          })
+        })
+          .then(res => res.json())
+          .then(json => {
+            dispatch({
+              type: "LOGIN_USER",
+              user: json.user.user
+            });
+            //handleOk();
+            localStorage.setItem("token", json.token);
+          });
+      });
+    history.push("/");
+  };
+};
+
+export const startGoogleClient = dispatch => {
+  return dispatch => {
+    window.gapi.load("auth2", function() {
+      window.auth2 = window.gapi.auth2.init({
+        client_id: clientId,
+        scope: "email profile"
+      });
     });
   };
-}
+};
 
-export function showUser(id) {
+export function showUser() {
   return dispatch => {
-    RestfulAdapter.showFetch("users", id).then(userData => {
-      let action = { type: "LOGIN_USER", payload: userData };
+    RestfulAdapter.getUser().then(userData => {
+      let action = { type: "LOGIN_USER", user: userData.user };
       dispatch(action);
     });
   };
 }
 
 export function logOutUser() {
-  localStorage.removeItem("token");
-  return {
-    type: "LOG_OUT_USER"
+  return dispatch => {
+    localStorage.removeItem("token");
+    const action = { type: "LOG_OUT_USER" };
+    dispatch(action);
   };
 }
 
@@ -35,8 +86,19 @@ export function loadingUser() {
 
 export function createApplication(applicationData) {
   return dispatch => {
+    dispatch({ type: "LOADING_USER" });
     RestfulAdapter.createFetch("applications", applicationData).then(json => {
       let action = { type: "ADD_APPLICATION", payload: json };
+      dispatch(action);
+    });
+  };
+}
+
+export function createContact(contactData) {
+  return dispatch => {
+    dispatch({ type: "LOADING_USER" });
+    RestfulAdapter.createFetch("contacts", contactData).then(json => {
+      let action = { type: "ADD_CONTACT", payload: json };
       dispatch(action);
     });
   };
@@ -46,5 +108,25 @@ export function setActiveApp(id) {
   return dispatch => {
     const action = { type: "SET_ACTIVE_APP", payload: id };
     dispatch(action);
+  };
+}
+
+export function setActiveContact(id) {
+  return dispatch => {
+    const action = { type: "SET_ACTIVE_CONTACT", payload: id };
+    dispatch(action);
+  };
+}
+
+export function editContact(id, contactData) {
+  return dispatch => {
+    dispatch({ type: "LOADING_USER" });
+    RestfulAdapter.editFetch("contacts", id, contactData).then(json => {
+      const action = {
+        type: "UPDATE_CONTACT",
+        payload: { id: json.contact.id, contact: json.contact }
+      };
+      dispatch(action);
+    });
   };
 }

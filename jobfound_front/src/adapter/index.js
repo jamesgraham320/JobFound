@@ -1,13 +1,5 @@
 const baseUrl = "http://localhost:3000";
 
-export class AuthAdapter {
-  static login(body) {
-    return fetch(`${baseUrl}/auth/google_oauth2`, getRequest()).then(
-      responseHandler()
-    );
-  }
-}
-
 export class RestfulAdapter {
   static indexFetch(route = "users") {
     return fetch(`${baseUrl}/${route}`, getRequest()).then(responseHandler());
@@ -23,7 +15,7 @@ export class RestfulAdapter {
     );
   }
   static editFetch(route = "users", id, body) {
-    return fetch(`${baseUrl}/${route}/${id}`, postRequest(body)).then(
+    return fetch(`${baseUrl}/${route}/${id}`, patchRequest(body)).then(
       responseHandler()
     );
   }
@@ -32,6 +24,11 @@ export class RestfulAdapter {
       method: "DELETE",
       headers: headers()
     }).then(responseHandler());
+  }
+  static getUser() {
+    return fetch(`${baseUrl}/current-user`, getRequest()).then(
+      responseHandler()
+    );
   }
 }
 
@@ -57,8 +54,20 @@ function postRequest(body) {
   };
 }
 
+function patchRequest(body) {
+  return {
+    method: "PUT",
+    headers: headers(),
+    body: JSON.stringify(body)
+  };
+}
+
 function responseHandler(response) {
   return response => {
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw response.json();
+    }
   };
 }

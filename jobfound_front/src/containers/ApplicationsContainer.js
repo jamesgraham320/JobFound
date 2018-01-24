@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { setActiveApp } from "../actions/data";
 import Application from "../components/Application";
 
-class ApplicationContainer extends Component {
+class ApplicationsContainer extends Component {
   state = {};
   componentWillReceiveProps(nextProps) {
     let splitUrl = this.props.location.pathname.split("/");
     let stringId = splitUrl[splitUrl.length - 1];
-    const id = parseInt(stringId);
+    const id = parseInt(stringId, 10);
     if (!this.props.loading) {
       this.props.setActiveApp(id);
     }
@@ -26,4 +26,6 @@ function mapStateToProps(state) {
   return { application: state.activeApplication, lodaing: state.loading };
 }
 
-export default connect(mapStateToProps, { setActiveApp })(ApplicationContainer);
+export default connect(mapStateToProps, { setActiveApp })(
+  ApplicationsContainer
+);
