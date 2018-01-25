@@ -4,13 +4,31 @@ import { editContact, createContact } from "../actions/data";
 import { Button, Form } from "semantic-ui-react";
 
 class EditContactForm extends Component {
-  state = this.props.contact
-    ? {
+  state = { contactName: "", contactEmail: "", contactPhone: "" };
+
+  componentDidMount() {
+    if (this.props.contact) {
+      this.setState({
         contactName: this.props.contact.name,
         contactEmail: this.props.contact.email,
         contactPhone: this.props.contact.phone_num
-      }
-    : { contactName: "", contactEmail: "", contactPhone: "" };
+      });
+    } else {
+      this.setState({ contactName: "", contactEmail: "", contactPhone: "" });
+    }
+  }
+
+  componentWillReceiveProps(nextprops) {
+    if (nextprops.contact) {
+      this.setState({
+        contactName: nextprops.contact.name,
+        contactEmail: nextprops.contact.email,
+        contactPhone: nextprops.contact.phone_num
+      });
+    } else {
+      this.setState({ contactName: "", contactEmail: "", contactPhone: "" });
+    }
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -18,13 +36,15 @@ class EditContactForm extends Component {
       contact: {
         name: this.state.contactName,
         phone_num: this.state.contactPhone,
-        email: this.state.contactEmail
+        email: this.state.contactEmail,
+        company_id: this.props.app.company.id
       }
     };
     if (this.props.contact) {
       this.props.editContact(this.props.contact.id, contactPayload);
     } else {
       this.props.createContact(contactPayload);
+      this.setState({ contactName: "", contactEmail: "", contactPhone: "" });
     }
     this.props.handleOk();
   };
@@ -64,7 +84,7 @@ class EditContactForm extends Component {
         </Form.Field>
         <Form.Field>
           <Button type="primary" htmltype="submit" onSubmit={this.handleSubmit}>
-            Update
+            {this.props.contact ? "Update" : "Submit"}
           </Button>
           <Button type="primary" onClick={this.props.handleOk}>
             Cancel
@@ -76,7 +96,11 @@ class EditContactForm extends Component {
 }
 
 function mapStateToProps(state) {
-  return { contact: state.activeContact };
+  return {
+    contact: state.activeContact,
+    loading: state.loading,
+    app: state.activeApplication
+  };
 }
 
 export default connect(mapStateToProps, { editContact, createContact })(

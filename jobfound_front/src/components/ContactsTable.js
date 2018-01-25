@@ -6,10 +6,10 @@ import EditContactForm from "../forms/EditContactForm";
 import { setActiveContact } from "../actions/data";
 
 class ContactsTable extends Component {
-  state = { visible: false };
+  state = { visible: false, chosenContact: {} };
 
-  showModal = (e, id) => {
-    this.props.setActiveContact(id);
+  showModal = e => {
+    this.props.setActiveContact(parseInt(e.target.name, 10));
     this.setState({ visible: true });
   };
 
@@ -24,7 +24,6 @@ class ContactsTable extends Component {
   };
 
   render() {
-    console.log(this.props);
     const contactList = this.props.contacts
       ? this.props.contacts.map(contact => {
           return (
@@ -32,26 +31,18 @@ class ContactsTable extends Component {
               key={contact.id}
               header={
                 <Row gutter={0}>
-                  <Col span={5}>{contact.name}</Col>
-                  <Col span={8}>{contact.email}</Col>
-                  <Col span={4}>{contact.phone_num}</Col>
-                  <Col span={4}>
+                  <Col span={6}>{contact.name}</Col>
+                  <Col span={10}>{contact.email}</Col>
+                  <Col span={7}>{contact.phone_num}</Col>
+                  <Col span={1}>
                     <Button
-                      onClick={e => this.showModal(e, contact.id)}
+                      name={contact.id}
+                      onClick={this.showModal}
                       style={{ float: "right" }}
                       size="small"
                     >
                       Edit
                     </Button>
-                    <Modal
-                      footer={null}
-                      title="Edit Contact"
-                      visible={this.state.visible}
-                      onOk={this.handleOk}
-                      onCancel={this.handleCancel}
-                    >
-                      <EditContactForm handleOk={this.handleOk} />
-                    </Modal>
                   </Col>
                 </Row>
               }
@@ -61,7 +52,20 @@ class ContactsTable extends Component {
           );
         })
       : null;
-    return <Collapse bordered={false}>{contactList}</Collapse>;
+    return (
+      <div>
+        <Collapse bordered={false}>{contactList}</Collapse>
+        <Modal
+          footer={null}
+          title="Edit Contact"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <EditContactForm handleOk={this.handleOk} />
+        </Modal>
+      </div>
+    );
   }
 }
 

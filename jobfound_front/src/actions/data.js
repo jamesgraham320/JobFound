@@ -29,7 +29,7 @@ export const signInUser = (history, handleOk) => {
           method: "POST",
           headers: {
             "content-type": "application/json",
-            accept: "application/json",
+            aadccept: "application/json",
             Authorization: localStorage.getItem("token")
           },
           body: JSON.stringify({
@@ -73,7 +73,7 @@ export function showUser() {
 export function logOutUser() {
   return dispatch => {
     localStorage.removeItem("token");
-    const action = { type: "LOG_OUT_USER" };
+    const action = { type: "LOGOUT_USER" };
     dispatch(action);
   };
 }
@@ -104,6 +104,15 @@ export function createContact(contactData) {
   };
 }
 
+export function createNote(noteData) {
+  return dispatch => {
+    RestfulAdapter.createFetch("notes", noteData).then(json => {
+      let action = { type: "ADD_NOTE", payload: json };
+      dispatch(action);
+    });
+  };
+}
+
 export function setActiveApp(id) {
   return dispatch => {
     const action = { type: "SET_ACTIVE_APP", payload: id };
@@ -120,12 +129,34 @@ export function setActiveContact(id) {
 
 export function editContact(id, contactData) {
   return dispatch => {
-    dispatch({ type: "LOADING_USER" });
     RestfulAdapter.editFetch("contacts", id, contactData).then(json => {
       const action = {
         type: "UPDATE_CONTACT",
         payload: { id: json.contact.id, contact: json.contact }
       };
+      dispatch(action);
+    });
+  };
+}
+
+export function nextStage(id, direction) {
+  return dispatch => {
+    RestfulAdapter.createFetch("stages", { id: id, direction: direction }).then(
+      json => {
+        const action = { type: "UPDATE_STAGE", stage: json.stage };
+        dispatch(action);
+      }
+    );
+  };
+}
+export function prevStage() {}
+export function closeStage() {}
+
+export function deleteNote(id) {
+  return dispatch => {
+    dispatch({ type: "LOADING_USER" });
+    RestfulAdapter.deleteFetch("notes", id).then(json => {
+      const action = { type: "DELETE_NOTE", payload: id };
       dispatch(action);
     });
   };

@@ -23,11 +23,10 @@ contact1 = Contact.create(name: "Jeff McJeffry", email:"mcjeffry@evilcorp.com", 
 contact2 = Contact.create(name: "Bill McBillfry", email:"mcbillfry@goodcorp.com", phone_num: "800-555-4567", company: company2, active: true)
 
 stage1 = Stage.create(application: app1, active: true, name: "Submitted", start: DateTime.now)
-stage2 = Stage.create(application: app2, active: false, name: "Submitted", start: DateTime.now, end: DateTime.now)
 stage3 = Stage.create(application: app2, active: true, name: "Interviewing", start: DateTime.now)
 
 Note.create(content: "i hope i get an interview!", stage: stage1)
-Note.create(content: "this company smells", stage: stage2)
+Note.create(content: "this company smells", stage: stage3)
 Note.create(content: "i got an interview! this company doesn't smell", stage: stage3)
 Note.create(content: "he's ok i guess", contact: contact1)
 Note.create(content: "he gave me a cookie so i like him", contact: contact2)

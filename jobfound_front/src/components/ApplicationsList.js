@@ -16,7 +16,7 @@ class ApplicationsList extends Component {
     } else {
       const listData = this.props.applications.map(app => {
         let divColor = "";
-        switch (app.active_stage.name) {
+        switch (app.stage.name) {
           case "Submitted":
             divColor = "#ffec3d";
             break;
@@ -39,29 +39,39 @@ class ApplicationsList extends Component {
           backgroundColor: divColor,
           marginRight: "2vw",
           fontSize: "0.7em",
-          textAlign: "center"
+          textAlign: "center",
+          display: "inline-block"
         };
         const activeContact = app.company.contacts
           ? app.company.contacts.find(contact => contact.active)
           : null;
         return (
-          <Item onClick={() => this.handleClick(app.id)} key={app.id}>
-            <div style={divStyling}>{app.active_stage.name}</div>
-            <Item.Content>
-              <Item.Header as="a">{app.company.name}</Item.Header>
-              <Item.Meta>{app.company.address}</Item.Meta>
-              <Item.Description>From: {app.company.source}</Item.Description>
-            </Item.Content>
-            <Item.Content>
+          <Item
+            style={{
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+            onClick={() => this.handleClick(app.id)}
+            key={app.id}
+          >
+            <div style={{ display: "flex", width: "40%" }}>
+              <div style={divStyling}>{app.stage.name}</div>
+              <div>
+                <Item.Header as="a">{app.company.name}</Item.Header>
+                <Item.Meta>{app.company.address}</Item.Meta>
+                <Item.Description>From: {app.company.source}</Item.Description>
+              </div>
+            </div>
+            <div style={{ width: "30%", textAlign: "center" }}>
               Last Updated <br />
-              <Item.Meta>{moment(app.active_stage.start).fromNow()}</Item.Meta>
-            </Item.Content>
-            <Item.Content>
+              <Item.Meta>{moment(app.stage.start).fromNow()}</Item.Meta>
+            </div>
+            <div style={{ textAlign: "right", width: "30%" }}>
               Active Contact: <br />
               <Item.Meta>
                 {activeContact ? activeContact.name : "No contacts yet"}
               </Item.Meta>
-            </Item.Content>
+            </div>
           </Item>
         );
       });

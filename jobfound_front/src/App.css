@@ -70,25 +70,78 @@
 }
 
 .container {
-  height: 50vh;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .application-header-container {
-  flex: 1;
-  height: 150px;
+  align-self: flex-start;
+  width: 30%;
+  margin-right: 2%;
   padding: 3vh;
-  margin-right: 20px;
   overflow-y: auto;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
-.application-contacts-container {
-  align-self: stretch;
-  flex: 2.5;
+.application-notes-container{
+  width: 30%;
+  margin-right: 2%;
+  margin-top: -14.8%;
   padding: 3vh;
+  height: 70vh;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.application-page-container {
+  padding: 3vh;
+  padding-right: 6vh;
+  padding-left: 6vh;
+  padding-bottom: 0;
+  height: 96vh;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  overflow: auto;
+}
+
+.notes {
+  height: 74%;
+  width: 100%;
+  overflow: auto;
+}
+
+.application-stages-container {
+  width: 68%;
+  align-self: stretch;
+  justify-content: space-between;
+  height: 49%;
+  margin-top: 2%;
+  padding: 4vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.buttons-div {
+  position: bottom;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.application-contacts-container {
+  width: 68%;
+  align-self: stretch;
+  justify-content: space-between;
+  height: 49%;
+  padding: 3vh;
+  box-sizing: border-box;
   overflow-y: auto;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);

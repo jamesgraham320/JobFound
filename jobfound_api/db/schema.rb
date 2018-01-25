@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20180116163522) do
     t.string "name"
     t.string "email"
     t.string "phone_num"
-    t.boolean "active"
+    t.boolean "active", default: false
     t.integer "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20180116163522) do
   create_table "stages", force: :cascade do |t|
     t.string "name", default: "Submitted"
     t.boolean "active", default: true
-    t.datetime "start", default: "2018-01-22 15:38:44"
+    t.datetime "start", default: "2018-01-25 18:11:41"
     t.datetime "end"
     t.integer "application_stage"
     t.integer "application_id"

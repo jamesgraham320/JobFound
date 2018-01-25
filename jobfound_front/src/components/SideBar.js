@@ -31,7 +31,18 @@ class SideBar extends Component {
         mode="inline"
         selectable={false}
       >
-        <Menu.Item key="0">
+        <Menu.Item
+          style={{ marginBottom: "20px", overflow: "visible" }}
+          key="0"
+        >
+          <img
+            src="/jobfound.png"
+            style={{
+              maxWidth: "100%"
+            }}
+          />
+        </Menu.Item>
+        <Menu.Item key="1">
           <Button type="primary" onClick={this.showModal} size="large">
             New Application
           </Button>
@@ -52,8 +63,10 @@ class SideBar extends Component {
           </Link>
         </Menu.Item>
         <Menu.Item onClick={this.props.logOutUser} key="3">
-          <Icon type="user" />
-          <span className="nav-text">Log Out</span>
+          <div onClick={this.props.logOutUser}>
+            <Icon type="logout" />
+            <span className="nav-text">Log Out</span>
+          </div>
         </Menu.Item>
       </Menu>
     );

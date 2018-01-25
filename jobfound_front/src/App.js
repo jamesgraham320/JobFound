@@ -28,37 +28,55 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Layout>
-          <Sider
-            style={{
-              overflow: "auto",
-              height: "100vh",
-              left: 0
-            }}
-          >
-            <SideBar />
-          </Sider>
+    if (!this.props.loggedIn && !localStorage.getItem("token")) {
+      return (
+        <Modal
+          footer={null}
+          title="Log in with Google to continue!"
+          visible={this.state.visible}
+        >
+          Click Me! <br />
+          <LoginButton handleOk={this.handleOk} />
+        </Modal>
+      );
+    } else {
+      return (
+        <div>
           <Layout>
-            <Content style={{ padding: "2vh" }}>
-              <Route
-                exact
-                path="/applications/:id"
-                component={ApplicationsContainer}
-              />
-              <Route exact path="/" component={ApplicationsList} />
-              <Route exact path="/login" component={LoginButton} />
-            </Content>
+            <Sider
+              style={{
+                overflow: "auto",
+                height: "100vh",
+                left: 0
+              }}
+            >
+              <SideBar />
+            </Sider>
+            <Layout>
+              <Content style={{ padding: "2vh" }}>
+                <Route
+                  exact
+                  path="/applications/:id"
+                  component={ApplicationsContainer}
+                />
+                <Route exact path="/" component={ApplicationsList} />
+                <Route exact path="/login" component={LoginButton} />
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 
 function mapStateToProps(state) {
-  return { user: state.user, loading: state.loading, loggedIn: state.loggedIn };
+  return {
+    user: state.user,
+    loading: state.loading,
+    loggedIn: state.loggedIn,
+    state: state
+  };
 }
 
 export default withRouter(
